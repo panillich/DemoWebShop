@@ -3,7 +3,6 @@ import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-// Наследуемся от базового класса
 public class CreateAccountTests extends TestBase {
 
     @Test
