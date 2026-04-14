@@ -13,7 +13,7 @@ public class ItemTests extends TestBase {
     }
 
     @Test
-    public void addItemToCartTest() throws InterruptedException {
+    public void addItemToCartTest(){
         app.getItem().openHomePage();
         Assert.assertTrue(app.getItem().getItemsCount() >= 2,
                 "There must be at least 2 products on the main page!");
