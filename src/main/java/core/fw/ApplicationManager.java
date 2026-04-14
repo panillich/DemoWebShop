@@ -36,8 +36,4 @@ public class ApplicationManager {
         return itemHelper;
     }
 
-    // Оставим геттер для драйвера на случай старых тестов (например DemoWebShopTest)
-    public WebDriver getDriver() {
-        return driver;
-    }
 }
