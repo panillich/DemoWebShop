@@ -51,7 +51,7 @@ public class TestBase {
     }
 
     public void login(String email, String password) {
-        click(By.cssSelector(".ico-login"));
+//        click(By.cssSelector(".ico-login"));
         type(By.id("Email"), email);
         type(By.id("Password"), password);
         click(By.cssSelector("input.login-button"));
