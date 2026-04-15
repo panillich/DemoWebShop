@@ -1,6 +1,5 @@
-package core.tests;
+package core;
 
-import core.fw.ApplicationManager;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 

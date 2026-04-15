@@ -1,5 +1,7 @@
-package core.fw;
+package core;
 
+import fw.ItemHelper;
+import fw.UserHelper;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 

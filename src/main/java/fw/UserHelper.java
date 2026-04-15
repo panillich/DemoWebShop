@@ -1,7 +1,7 @@
-package core.fw;
+package fw;
 
-import core.model.Gender;
-import core.model.User;
+import model.Gender;
+import model.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 

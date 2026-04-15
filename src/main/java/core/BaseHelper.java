@@ -1,4 +1,4 @@
-package core.fw;
+package core;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;

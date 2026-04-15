@@ -1,7 +1,8 @@
-package core.tests;
+package tests;
 
-import core.model.Gender;
-import core.model.User;
+import core.TestBase;
+import model.Gender;
+import model.User;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
