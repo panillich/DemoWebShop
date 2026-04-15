@@ -1,5 +1,6 @@
 package fw;
 
+import core.BaseHelper;
 import model.Gender;
 import model.User;
 import org.openqa.selenium.By;
