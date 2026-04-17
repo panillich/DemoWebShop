@@ -1,0 +1,7 @@
+671  [main] INFO  org.testng.internal.Utils -- [TestNG] Running:
+  C:\Users\panil\AppData\Local\JetBrains\IdeaIC2025.2\temp-testng-customsuite.xml
+
+2350 [main] INFO  core.TestBase -- Start test addItemToCartTest 
+6461 [main] INFO  core.TestBase -- PASSED: addItemToCartTest 
+6461 [main] INFO  core.TestBase -- Stop test
+6461 [main] INFO  core.TestBase -- === === ===

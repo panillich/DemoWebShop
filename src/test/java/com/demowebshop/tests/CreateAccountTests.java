@@ -1,8 +1,8 @@
-package tests;
+package com.demowebshop.tests;
 
-import core.TestBase;
-import model.Gender;
-import model.User;
+import com.demowebshop.core.TestBase;
+import com.demowebshop.model.Gender;
+import com.demowebshop.model.User;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

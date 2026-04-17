@@ -13,8 +13,44 @@ dependencies {
     implementation("org.seleniumhq.selenium:selenium-java:4.40.0")
     implementation("org.testng:testng:7.11.0")
     testImplementation 'io.github.bonigarcia:webdrivermanager:5.9.2'
+    implementation("ch.qos.logback:logback-classic:1.5.32")
 }
 
 test {
     useTestNG()
 }
+test {
+    useTestNG()
+
+    // Пробрасываем параметр "browser" из терминала в системные переменные Java
+    // Если параметр не передан, он будет равен null
+    systemProperty 'browser', project.findProperty('browser')
+}
+test {
+    useTestNG() {
+        // Добавляем логику чтения XML файлов
+        // Если из терминала передали параметр suite (например, quick.xml), то запускаем его.
+        if (project.hasProperty('suite')) {
+            suites "src/test/resources/" + project.getProperty('suite')
+        }
+    }
+
+    // Эту строку вы добавили ранее (для кроссбраузерности)
+    systemProperty 'browser', project.findProperty('browser')
+}
+
+def registerTask(String taskName,String suitePath){
+    tasks.register(taskName,Test){
+        useTestNG(){
+            suites suitePath
+        }
+        testClassesDirs = sourceSets.test.output.classesDirs
+        classpath = sourceSets.test.runtimeClasspath
+        if(project.hasProperty('browser')){
+            systemProperty 'browser',"${browser}"
+        }
+    }
+
+}
+registerTask('quick','src/test/resources/quick.xml')
+registerTask('regression','src/test/resources/regression.xml')

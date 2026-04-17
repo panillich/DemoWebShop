@@ -1,0 +1,31 @@
+640  [main] INFO  org.testng.internal.Utils -- [TestNG] Running:
+  C:\Users\panil\AppData\Local\JetBrains\IdeaIC2025.2\temp-testng-customsuite.xml
+
+2036 [main] INFO  core.TestBase -- Start test testCreatePositiveAccount 
+4829 [main] INFO  core.TestBase -- PASSED: testCreatePositiveAccount 
+4829 [main] INFO  core.TestBase -- Stop test
+4829 [main] INFO  core.TestBase -- === === ===
+5798 [main] INFO  core.TestBase -- Start test testHomePageLoadsAndContainsItems 
+6537 [main] INFO  core.TestBase -- PASSED: testHomePageLoadsAndContainsItems 
+6538 [main] INFO  core.TestBase -- Stop test
+6539 [main] INFO  core.TestBase -- === === ===
+7552 [main] INFO  core.TestBase -- Start test addItemToCartTest 
+12419 [main] INFO  core.TestBase -- PASSED: addItemToCartTest 
+12419 [main] INFO  core.TestBase -- Stop test
+12419 [main] INFO  core.TestBase -- === === ===
+13381 [main] INFO  core.TestBase -- Start test testNegativeLogin 
+16528 [main] INFO  core.TestBase -- PASSED: testNegativeLogin 
+16528 [main] INFO  core.TestBase -- Stop test
+16528 [main] INFO  core.TestBase -- === === ===
+17426 [main] INFO  core.TestBase -- Start test testNegativeLogin 
+20808 [main] INFO  core.TestBase -- PASSED: testNegativeLogin 
+20808 [main] INFO  core.TestBase -- Stop test
+20808 [main] INFO  core.TestBase -- === === ===
+21640 [main] INFO  core.TestBase -- Start test testNegativeLogin 
+24849 [main] INFO  core.TestBase -- PASSED: testNegativeLogin 
+24850 [main] INFO  core.TestBase -- Stop test
+24850 [main] INFO  core.TestBase -- === === ===
+25719 [main] INFO  core.TestBase -- Start test testPositiveLogin 
+27284 [main] INFO  core.TestBase -- PASSED: testPositiveLogin 
+27284 [main] INFO  core.TestBase -- Stop test
+27284 [main] INFO  core.TestBase -- === === ===

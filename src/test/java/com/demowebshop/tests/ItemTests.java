@@ -1,6 +1,6 @@
-package tests;
+package com.demowebshop.tests;
 
-import core.TestBase;
+import com.demowebshop.core.TestBase;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -14,7 +14,7 @@ public class ItemTests extends TestBase {
     }
 
     @Test
-    public void addItemToCartTest(){
+    public void addItemToCartTest() {
         app.getItem().openHomePage();
         Assert.assertTrue(app.getItem().getItemsCount() >= 2,
                 "There must be at least 2 products on the main page!");
@@ -30,6 +30,11 @@ public class ItemTests extends TestBase {
 
     @AfterMethod
     public void cleanUp() {
-        app.getItem().clearCart();
+        try {
+            app.getItem().clearCart();
+        } catch (Exception e) {
+            logger.warn("Could not clear cart after test: " + e.getMessage());
+        }
     }
 }
+

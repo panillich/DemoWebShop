@@ -1,8 +1,8 @@
-package fw;
+package com.demowebshop.fw;
 
-import core.BaseHelper;
-import model.Gender;
-import model.User;
+import com.demowebshop.core.BaseHelper;
+import com.demowebshop.model.Gender;
+import com.demowebshop.model.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -48,6 +48,10 @@ public class UserHelper extends BaseHelper {
 
     public boolean isUserLoggedIn() {
         return isElementPresent(By.cssSelector(".ico-logout"));
+    }
+
+    public boolean isLoginErrorDisplayed() {
+        return isElementPresent(By.cssSelector(".validation-summary-errors, .field-validation-error"));
     }
 }
 

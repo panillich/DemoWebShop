@@ -1,6 +1,6 @@
-package fw;
+package com.demowebshop.fw;
 
-import core.BaseHelper;
+import com.demowebshop.core.BaseHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
