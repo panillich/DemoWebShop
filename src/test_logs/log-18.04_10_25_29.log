@@ -1,0 +1,31 @@
+602  [main] INFO  org.testng.internal.Utils -- [TestNG] Running:
+  C:\Users\panil\AppData\Local\JetBrains\IdeaIC2025.2\temp-testng-customsuite.xml
+
+1959 [main] INFO  com.demowebshop.core.TestBase -- Start test testCreatePositiveAccount 
+5381 [main] INFO  com.demowebshop.core.TestBase -- PASSED: testCreatePositiveAccount 
+5381 [main] INFO  com.demowebshop.core.TestBase -- Stop test
+5382 [main] INFO  com.demowebshop.core.TestBase -- === === ===
+5388 [main] INFO  com.demowebshop.core.TestBase -- Start test testHomePageLoadsAndContainsItems 
+6171 [main] INFO  com.demowebshop.core.TestBase -- PASSED: testHomePageLoadsAndContainsItems 
+6171 [main] INFO  com.demowebshop.core.TestBase -- Stop test
+6172 [main] INFO  com.demowebshop.core.TestBase -- === === ===
+6174 [main] INFO  com.demowebshop.core.TestBase -- Start test addItemToCartTest 
+11133 [main] INFO  com.demowebshop.core.TestBase -- PASSED: addItemToCartTest 
+11133 [main] INFO  com.demowebshop.core.TestBase -- Stop test
+11133 [main] INFO  com.demowebshop.core.TestBase -- === === ===
+11139 [main] INFO  com.demowebshop.core.TestBase -- Start test testNegativeLogin 
+14386 [main] INFO  com.demowebshop.core.TestBase -- PASSED: testNegativeLogin 
+14386 [main] INFO  com.demowebshop.core.TestBase -- Stop test
+14386 [main] INFO  com.demowebshop.core.TestBase -- === === ===
+14388 [main] INFO  com.demowebshop.core.TestBase -- Start test testNegativeLogin 
+17902 [main] INFO  com.demowebshop.core.TestBase -- PASSED: testNegativeLogin 
+17903 [main] INFO  com.demowebshop.core.TestBase -- Stop test
+17903 [main] INFO  com.demowebshop.core.TestBase -- === === ===
+17905 [main] INFO  com.demowebshop.core.TestBase -- Start test testNegativeLogin 
+21778 [main] INFO  com.demowebshop.core.TestBase -- PASSED: testNegativeLogin 
+21779 [main] INFO  com.demowebshop.core.TestBase -- Stop test
+21779 [main] INFO  com.demowebshop.core.TestBase -- === === ===
+21780 [main] INFO  com.demowebshop.core.TestBase -- Start test testPositiveLogin 
+23253 [main] INFO  com.demowebshop.core.TestBase -- PASSED: testPositiveLogin 
+23254 [main] INFO  com.demowebshop.core.TestBase -- Stop test
+23254 [main] INFO  com.demowebshop.core.TestBase -- === === ===

@@ -27,9 +27,7 @@ public class ApplicationManager {
         } else {
             driver.set(new ChromeDriver());
         }
-
         driver.get().manage().window().maximize();
-        // УДАЛЕНО: implicitlyWait больше не устанавливается глобально
     }
 
     public String takeScreenshot() {
@@ -52,4 +50,8 @@ public class ApplicationManager {
 
     public UserHelper getUser() { return new UserHelper(driver.get()); }
     public ItemHelper getItem() { return new ItemHelper(driver.get()); }
+    public WebDriver getDriver() {
+        return driver.get();
+    }
+
 }

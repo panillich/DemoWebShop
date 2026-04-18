@@ -47,6 +47,7 @@ public class ItemHelper extends BaseHelper {
     public boolean isItemInCart(String itemName) {
         return isElementPresent(By.xpath("//td[@class='product']//a[normalize-space(text())='" + itemName + "']"));
     }
+
     public void clearCart() {
         click(By.cssSelector(".ico-cart"));
 

@@ -4,6 +4,8 @@
         <classes>
             <class name="com.demowebshop.tests.CreateAccountTests"/>
             <class name="com.demowebshop.tests.ItemTests"/>
+            <class name="com.demowebshop.tests.HomePageTests"/>
+            <class name="com.demowebshop.tests.LoginTests"/>
         </classes>
     </test>
 </suite>

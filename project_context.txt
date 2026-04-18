@@ -1,0 +1,563 @@
+﻿
+==================================================
+ФАЙЛ: C:\QA_Projects\DemoWebShop\src\main\java\com\demowebshop\core\ApplicationManager.java
+==================================================
+package com.demowebshop.core;
+
+import com.demowebshop.fw.ItemHelper;
+import com.demowebshop.fw.UserHelper;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import com.google.common.io.Files;
+
+import java.io.File;
+import java.io.IOException;
+
+public class ApplicationManager {
+    private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    private final String browser;
+
+    public ApplicationManager(String browser) {
+        this.browser = browser;
+    }
+
+    public void init() {
+        if (browser.equalsIgnoreCase("firefox")) {
+            driver.set(new FirefoxDriver());
+        } else if (browser.equalsIgnoreCase("edge")) {
+            driver.set(new EdgeDriver());
+        } else {
+            driver.set(new ChromeDriver());
+        }
+        driver.get().manage().window().maximize();
+    }
+
+    public String takeScreenshot() {
+        File tmp = ((TakesScreenshot) driver.get()).getScreenshotAs(OutputType.FILE);
+        File screen = new File("screenshots/screen-" + System.currentTimeMillis() + ".png");
+        try {
+            Files.copy(tmp, screen);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return screen.getAbsolutePath();
+    }
+
+    public void stop() {
+        if (driver.get() != null) {
+            driver.get().quit();
+            driver.remove();
+        }
+    }
+
+    public UserHelper getUser() { return new UserHelper(driver.get()); }
+    public ItemHelper getItem() { return new ItemHelper(driver.get()); }
+    public WebDriver getDriver() {
+        return driver.get();
+    }
+
+}
+
+==================================================
+ФАЙЛ: C:\QA_Projects\DemoWebShop\src\main\java\com\demowebshop\core\BaseHelper.java
+==================================================
+package com.demowebshop.core;
+
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
+
+public class BaseHelper {
+    protected WebDriver driver;
+
+    public BaseHelper(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    public void click(By locator) {
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.elementToBeClickable(locator)).click();
+    }
+
+    public void type(By locator, String text) {
+        if (text != null) {
+            click(locator);
+            driver.findElement(locator).clear();
+            driver.findElement(locator).sendKeys(text);
+        }
+    }
+
+    public boolean isElementPresent(By locator) {
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(2))
+                    .until(ExpectedConditions.presenceOfElementLocated(locator));
+            return true;
+        } catch (TimeoutException | NoSuchElementException e) {
+            return false;
+        }
+    }
+}
+
+==================================================
+ФАЙЛ: C:\QA_Projects\DemoWebShop\src\main\java\com\demowebshop\data\UserData.java
+==================================================
+package com.demowebshop.data;
+
+public class UserData {
+    public static final String EMAIL = System.getProperty("user.email", "panillich@gmail.com");
+    public static final String PASSWORD = System.getProperty("user.password", "SecretPass123!");
+}
+
+==================================================
+ФАЙЛ: C:\QA_Projects\DemoWebShop\src\main\java\com\demowebshop\fw\ItemHelper.java
+==================================================
+package com.demowebshop.fw;
+
+import com.demowebshop.core.BaseHelper;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+import java.util.List;
+
+public class ItemHelper extends BaseHelper {
+
+    private final WebDriverWait wait;
+
+    public ItemHelper(WebDriver driver) {
+        super(driver);
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+    }
+
+    public void openHomePage() {
+        driver.get("https://demowebshop.tricentis.com/");
+    }
+
+    public int getItemsCount() {
+        return driver.findElements(By.cssSelector(".product-item")).size();
+    }
+
+    public String getItemNameByIndex(int index) {
+        List<WebElement> productItems = driver.findElements(By.cssSelector(".product-item"));
+        return productItems.get(index).findElement(By.cssSelector(".product-title a")).getText();
+    }
+
+    public void addItemToCartByIndex(int index) {
+        List<WebElement> productItems = driver.findElements(By.cssSelector(".product-item"));
+        productItems.get(index).findElement(By.cssSelector("input[value='Add to cart']")).click();
+
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("span.close")));
+        click(By.cssSelector("span.close"));
+    }
+
+    public void openCart() {
+        click(By.cssSelector(".ico-cart"));
+    }
+
+    public boolean isItemInCart(String itemName) {
+        return isElementPresent(By.xpath("//td[@class='product']//a[normalize-space(text())='" + itemName + "']"));
+    }
+
+    public void clearCart() {
+        click(By.cssSelector(".ico-cart"));
+
+        List<WebElement> removeCheckboxes = driver.findElements(By.name("removefromcart"));
+
+        if (!removeCheckboxes.isEmpty()) {
+            for (WebElement checkbox : removeCheckboxes) {
+                checkbox.click();
+            }
+            click(By.name("updatecart"));
+        }
+    }
+}
+
+==================================================
+ФАЙЛ: C:\QA_Projects\DemoWebShop\src\main\java\com\demowebshop\fw\UserHelper.java
+==================================================
+package com.demowebshop.fw;
+
+import com.demowebshop.core.BaseHelper;
+import com.demowebshop.model.Gender;
+import com.demowebshop.model.User;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+public class UserHelper extends BaseHelper {
+
+    public UserHelper(WebDriver driver) {
+        super(driver);
+    }
+
+    public void login(String email, String password) {
+        driver.get("https://demowebshop.tricentis.com/login");
+        type(By.id("Email"), email);
+        type(By.id("Password"), password);
+        click(By.cssSelector("input.login-button"));
+    }
+
+    public void openRegistrationPage() {
+        driver.get("https://demowebshop.tricentis.com/");
+        click(By.cssSelector(".ico-register"));
+    }
+
+    public void fillRegistrationForm(User user) {
+        if (user.gender() == Gender.MALE) {
+            click(By.id("gender-male"));
+        } else {
+            click(By.id("gender-female"));
+        }
+
+        type(By.id("FirstName"), user.firstName());
+        type(By.id("LastName"), user.lastName());
+        type(By.id("Email"), user.email());
+        type(By.id("Password"), user.password());
+        type(By.id("ConfirmPassword"), user.password());
+    }
+
+    public void submitRegistration() {
+        click(By.id("register-button"));
+    }
+
+    public boolean isRegistrationSuccessful() {
+        return isElementPresent(By.cssSelector(".result"));
+    }
+
+    public boolean isUserLoggedIn() {
+        return isElementPresent(By.cssSelector(".ico-logout"));
+    }
+
+    public boolean isLoginErrorDisplayed() {
+        return isElementPresent(By.cssSelector(".validation-summary-errors, .field-validation-error"));
+    }
+}
+
+
+==================================================
+ФАЙЛ: C:\QA_Projects\DemoWebShop\src\main\java\com\demowebshop\model\Gender.java
+==================================================
+package com.demowebshop.model;
+
+public enum Gender {
+    MALE,
+    FEMALE;
+}
+
+==================================================
+ФАЙЛ: C:\QA_Projects\DemoWebShop\src\main\java\com\demowebshop\model\User.java
+==================================================
+package com.demowebshop.model;
+
+public record User(Gender gender, String firstName, String lastName, String email, String password) {
+}
+
+==================================================
+ФАЙЛ: C:\QA_Projects\DemoWebShop\src\test\java\com\demowebshop\core\TestBase.java
+==================================================
+package com.demowebshop.core;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
+
+import java.lang.reflect.Method;
+
+public class TestBase {
+
+    protected static ApplicationManager app;
+    protected Logger logger = LoggerFactory.getLogger(TestBase.class);
+
+    // Запускается один раз перед выполнением всех тестов в Suite
+    @BeforeSuite
+    public void setUp() {
+        String browser = System.getProperty("browser", "chrome");
+        app = new ApplicationManager(browser);
+        app.init();
+    }
+
+    // Запускается один раз после выполнения всех тестов
+    @AfterSuite(alwaysRun = true)
+    public void tearDown() {
+        if (app != null) {
+            app.stop();
+        }
+    }
+
+    // Запускается перед каждым тестовым методом
+    @BeforeMethod
+    public void startTest(Method method) {
+        logger.info("Start test {} ", method.getName());
+
+        if (app.getDriver() != null) {
+            app.getDriver().manage().deleteAllCookies();
+            // Обязательно возвращаемся на главную страницу перед новым тестом
+            app.getDriver().get("https://demowebshop.tricentis.com/");
+        }
+    }
+
+    @AfterMethod
+    public void stopTest(ITestResult result) {
+        if (result.isSuccess()) {
+            logger.info("PASSED: {} ", result.getMethod().getMethodName());
+        } else {
+            logger.error("FAILED: {}", result.getMethod().getMethodName());
+            if (app != null) {
+                String screenshotPath = app.takeScreenshot();
+                logger.error("Screenshot path: {}", screenshotPath);
+            }
+        }
+        logger.info("Stop test");
+        logger.info("=== === ===");
+    }
+}
+
+==================================================
+ФАЙЛ: C:\QA_Projects\DemoWebShop\src\test\java\com\demowebshop\tests\CreateAccountTests.java
+==================================================
+package com.demowebshop.tests;
+
+import com.demowebshop.core.TestBase;
+import com.demowebshop.model.Gender;
+import com.demowebshop.model.User;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class CreateAccountTests extends TestBase {
+
+    @Test
+    public void testCreatePositiveAccount() {
+        String uniqueEmail = "panillich" + System.currentTimeMillis() + "@gmail.com";
+        User user = new User(Gender.MALE, "Vladimir", "Panchenko", uniqueEmail, "SecretPass123!");
+
+        app.getUser().openRegistrationPage();
+        app.getUser().fillRegistrationForm(user);
+        app.getUser().submitRegistration();
+
+        Assert.assertTrue(app.getUser().isRegistrationSuccessful(),
+                "Successful registration message not found!");
+        Assert.assertTrue(app.getUser().isUserLoggedIn(),
+                "User is not authorized!");
+    }
+}
+
+==================================================
+ФАЙЛ: C:\QA_Projects\DemoWebShop\src\test\java\com\demowebshop\tests\HomePageTests.java
+==================================================
+package com.demowebshop.tests;
+
+import com.demowebshop.core.TestBase;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class HomePageTests extends TestBase {
+
+    @Test
+    public void testHomePageLoadsAndContainsItems() {
+        app.getItem().openHomePage();
+
+        Assert.assertTrue(app.getItem().getItemsCount() > 0,
+                "No products found on the Home Page!");
+
+        Assert.assertTrue(app.getItem().isElementPresent(org.openqa.selenium.By.cssSelector(".header-logo")),
+                "Header logo is missing on the Home Page!");
+
+        Assert.assertTrue(app.getItem().isElementPresent(org.openqa.selenium.By.cssSelector(".block-category-navigation")),
+                "Category navigation block is missing!");
+    }
+}
+
+==================================================
+ФАЙЛ: C:\QA_Projects\DemoWebShop\src\test\java\com\demowebshop\tests\ItemTests.java
+==================================================
+package com.demowebshop.tests;
+
+import com.demowebshop.core.TestBase;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class ItemTests extends TestBase {
+
+    @BeforeMethod
+    public void ensurePreconditions() {
+        app.getUser().login("panillich@gmail.com", "SecretPass123!");
+    }
+
+    @Test
+    public void addItemToCartTest() {
+        app.getItem().openHomePage();
+        Assert.assertTrue(app.getItem().getItemsCount() >= 2,
+                "There must be at least 2 products on the main page!");
+
+        String expectedProductName = app.getItem().getItemNameByIndex(1);
+
+        app.getItem().addItemToCartByIndex(1);
+        app.getItem().openCart();
+
+        Assert.assertTrue(app.getItem().isItemInCart(expectedProductName),
+                "The item '" + expectedProductName + "' not found in the cart!");
+    }
+
+    @AfterMethod
+    public void cleanUp() {
+        try {
+            app.getItem().clearCart();
+        } catch (Exception e) {
+            logger.warn("Could not clear cart after test: " + e.getMessage());
+        }
+    }
+}
+
+
+==================================================
+ФАЙЛ: C:\QA_Projects\DemoWebShop\src\test\java\com\demowebshop\tests\LoginTests.java
+==================================================
+package com.demowebshop.tests;
+
+import com.demowebshop.core.TestBase;
+import com.demowebshop.data.UserData;
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+public class LoginTests extends TestBase {
+
+    @Test
+    public void testPositiveLogin() {
+        app.getUser().login(UserData.EMAIL, UserData.PASSWORD);
+
+        Assert.assertTrue(app.getUser().isUserLoggedIn(),
+                "User is not logged in after valid credentials!");
+    }
+
+    @DataProvider(name = "invalidLoginData")
+    public Object[][] provideInvalidData() {
+        return new Object[][]{
+                {"invalid_email.com", "SecretPass123!"},
+                {UserData.EMAIL, "WrongPassword!!!"},
+                {"", ""}
+        };
+    }
+
+    @Test(dataProvider = "invalidLoginData")
+    public void testNegativeLogin(String email, String password) {
+        app.getUser().login(email, password);
+
+        Assert.assertFalse(app.getUser().isUserLoggedIn(),
+                "User managed to log in with invalid data: " + email);
+
+        Assert.assertTrue(app.getUser().isLoginErrorDisplayed(),
+                "Login error message is not displayed!");
+    }
+}
+
+==================================================
+ФАЙЛ: C:\QA_Projects\DemoWebShop\src\test\resources\logback.xml
+==================================================
+<configuration>
+
+    <timestamp key="bySecond" datePattern="dd.MM_HH_mm_ss"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%kvp- %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>src/test_logs/log-${bySecond}.log</file>
+        <append>true</append>
+        <immediateFlush>true</immediateFlush>
+        <encoder>
+            <pattern>%-4relative [%thread] %-5level %logger{35} -%kvp- %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>
+
+==================================================
+ФАЙЛ: C:\QA_Projects\DemoWebShop\src\test\resources\quick.xml
+==================================================
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="QuickSuite" verbose="1">
+    <test name="SmokeTest">
+        <classes>
+            <class name="com.demowebshop.tests.CreateAccountTests"/>
+        </classes>
+    </test>
+</suite>
+
+==================================================
+ФАЙЛ: C:\QA_Projects\DemoWebShop\src\test\resources\regression.xml
+==================================================
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="RegressionSuite" verbose="1">
+    <test name="FullTest">
+        <classes>
+            <class name="com.demowebshop.tests.CreateAccountTests"/>
+            <class name="com.demowebshop.tests.ItemTests"/>
+            <class name="com.demowebshop.tests.HomePageTests"/>
+            <class name="com.demowebshop.tests.LoginTests"/>
+        </classes>
+    </test>
+</suite>
+
+==================================================
+ФАЙЛ: C:\QA_Projects\DemoWebShop\build.gradle
+==================================================
+plugins {
+    id 'java'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("org.seleniumhq.selenium:selenium-java:4.40.0")
+    implementation("org.testng:testng:7.11.0")
+    implementation("ch.qos.logback:logback-classic:1.5.32")
+}
+
+test {
+    useTestNG() {
+        if (project.hasProperty('suite')) {
+            suites "src/test/resources/" + project.getProperty('suite')
+        }
+    }
+}
+
+def registerTask(String taskName, String suitePath) {
+    tasks.register(taskName, Test) {
+        useTestNG() {
+            suites suitePath
+            useDefaultListeners = true
+        }
+        testClassesDirs = sourceSets.test.output.classesDirs
+        classpath = sourceSets.test.runtimeClasspath
+        if (project.hasProperty('browser')) {
+            systemProperty 'browser', "${browser}"
+        }
+    }
+}
+
+registerTask('quick', 'src/test/resources/quick.xml')
+registerTask('regression', 'src/test/resources/regression.xml')

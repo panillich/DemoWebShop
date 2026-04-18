@@ -1,8 +1,0 @@
-3057 [Test worker] INFO  core.TestBase -- Start test testCreatePositiveAccount 
-7097 [Test worker] INFO  core.TestBase -- PASSED: testCreatePositiveAccount 
-7098 [Test worker] INFO  core.TestBase -- Stop test
-7098 [Test worker] INFO  core.TestBase -- === === ===
-8641 [Test worker] INFO  core.TestBase -- Start test addItemToCartTest 
-13650 [Test worker] INFO  core.TestBase -- PASSED: addItemToCartTest 
-13651 [Test worker] INFO  core.TestBase -- Stop test
-13651 [Test worker] INFO  core.TestBase -- === === ===

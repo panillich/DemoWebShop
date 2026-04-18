@@ -13,7 +13,6 @@ public class BaseHelper {
     }
 
     public void click(By locator) {
-        // Рекомендуется также добавить явное ожидание перед кликом
         new WebDriverWait(driver, Duration.ofSeconds(5))
                 .until(ExpectedConditions.elementToBeClickable(locator)).click();
     }
@@ -28,7 +27,6 @@ public class BaseHelper {
 
     public boolean isElementPresent(By locator) {
         try {
-            // Используем явное ожидание на 2-3 секунды для проверки наличия
             new WebDriverWait(driver, Duration.ofSeconds(2))
                     .until(ExpectedConditions.presenceOfElementLocated(locator));
             return true;
