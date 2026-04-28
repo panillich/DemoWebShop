@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Login functionality" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-04-28T09:21:34.252Z" hostname="HPENVY" time="20.382">
+  <properties/>
+  <testcase name="Login with correct email and wrong password #1" classname="Login functionality" time="6.148"/>
+  <testcase name="Login with correct email and wrong password #2" classname="Login functionality" time="5.037"/>
+  <testcase name="Login with correct email and wrong password #3" classname="Login functionality" time="4.723"/>
+  <testcase name="Login with correct email and wrong password #4" classname="Login functionality" time="4.472"/>
+  <system-out><![CDATA[
+@wrongPassword
+?[1mScenario Outline:?[22m Login with correct email and wrong password          ?[90m# src/test/resources/features/login.feature:20?[39m
+  ?[32m✔?[39m ?[32m?[1mGiven ?[22mUser opens ilcarro Homepage?[39m                                  ?[90m# com.ilcarro.stepDefinitions.HomePageSteps.user_opens_ilcarro_HomePage()?[39m
+  ?[32m✔?[39m ?[32m?[1mAnd ?[22mUser clicks on login link?[39m                                      ?[90m# com.ilcarro.stepDefinitions.LoginSteps.user_clicks_on_login_link()?[39m
+  ?[32m✔?[39m ?[32m?[1mAnd ?[22mUser enters email ?[1m"test222@gmail.com"?[22m and password ?[1m"Test12345"?[22m?[39m ?[90m# com.ilcarro.stepDefinitions.LoginSteps.user_enters_credentials(java.lang.String,java.lang.String)?[39m
+  ?[32m✔?[39m ?[32m?[1mAnd ?[22mUser clicks on Yalla button?[39m                                    ?[90m# com.ilcarro.stepDefinitions.LoginSteps.user_clicks_on_Yalla_button()?[39m
+  ?[32m✔?[39m ?[32m?[1mThen ?[22mUser verifies error message is displayed?[39m                      ?[90m# com.ilcarro.stepDefinitions.LoginSteps.verifies_error_Login()?[39m
+
+@wrongPassword
+?[1mScenario Outline:?[22m Login with correct email and wrong password           ?[90m# src/test/resources/features/login.feature:21?[39m
+  ?[32m✔?[39m ?[32m?[1mGiven ?[22mUser opens ilcarro Homepage?[39m                                   ?[90m# com.ilcarro.stepDefinitions.HomePageSteps.user_opens_ilcarro_HomePage()?[39m
+  ?[32m✔?[39m ?[32m?[1mAnd ?[22mUser clicks on login link?[39m                                       ?[90m# com.ilcarro.stepDefinitions.LoginSteps.user_clicks_on_login_link()?[39m
+  ?[32m✔?[39m ?[32m?[1mAnd ?[22mUser enters email ?[1m"test222@gmail.com"?[22m and password ?[1m"test12345!"?[22m?[39m ?[90m# com.ilcarro.stepDefinitions.LoginSteps.user_enters_credentials(java.lang.String,java.lang.String)?[39m
+  ?[32m✔?[39m ?[32m?[1mAnd ?[22mUser clicks on Yalla button?[39m                                     ?[90m# com.ilcarro.stepDefinitions.LoginSteps.user_clicks_on_Yalla_button()?[39m
+  ?[32m✔?[39m ?[32m?[1mThen ?[22mUser verifies error message is displayed?[39m                       ?[90m# com.ilcarro.stepDefinitions.LoginSteps.verifies_error_Login()?[39m
+
+@wrongPassword
+?[1mScenario Outline:?[22m Login with correct email and wrong password           ?[90m# src/test/resources/features/login.feature:22?[39m
+  ?[32m✔?[39m ?[32m?[1mGiven ?[22mUser opens ilcarro Homepage?[39m                                   ?[90m# com.ilcarro.stepDefinitions.HomePageSteps.user_opens_ilcarro_HomePage()?[39m
+  ?[32m✔?[39m ?[32m?[1mAnd ?[22mUser clicks on login link?[39m                                       ?[90m# com.ilcarro.stepDefinitions.LoginSteps.user_clicks_on_login_link()?[39m
+  ?[32m✔?[39m ?[32m?[1mAnd ?[22mUser enters email ?[1m"test222@gmail.com"?[22m and password ?[1m"TEST12345!"?[22m?[39m ?[90m# com.ilcarro.stepDefinitions.LoginSteps.user_enters_credentials(java.lang.String,java.lang.String)?[39m
+  ?[32m✔?[39m ?[32m?[1mAnd ?[22mUser clicks on Yalla button?[39m                                     ?[90m# com.ilcarro.stepDefinitions.LoginSteps.user_clicks_on_Yalla_button()?[39m
+  ?[32m✔?[39m ?[32m?[1mThen ?[22mUser verifies error message is displayed?[39m                       ?[90m# com.ilcarro.stepDefinitions.LoginSteps.verifies_error_Login()?[39m
+
+@wrongPassword
+?[1mScenario Outline:?[22m Login with correct email and wrong password           ?[90m# src/test/resources/features/login.feature:23?[39m
+  ?[32m✔?[39m ?[32m?[1mGiven ?[22mUser opens ilcarro Homepage?[39m                                   ?[90m# com.ilcarro.stepDefinitions.HomePageSteps.user_opens_ilcarro_HomePage()?[39m
+  ?[32m✔?[39m ?[32m?[1mAnd ?[22mUser clicks on login link?[39m                                       ?[90m# com.ilcarro.stepDefinitions.LoginSteps.user_clicks_on_login_link()?[39m
+  ?[32m✔?[39m ?[32m?[1mAnd ?[22mUser enters email ?[1m"test222@gmail.com"?[22m and password ?[1m"ЕУЫЕ12345!"?[22m?[39m ?[90m# com.ilcarro.stepDefinitions.LoginSteps.user_enters_credentials(java.lang.String,java.lang.String)?[39m
+  ?[32m✔?[39m ?[32m?[1mAnd ?[22mUser clicks on Yalla button?[39m                                     ?[90m# com.ilcarro.stepDefinitions.LoginSteps.user_clicks_on_Yalla_button()?[39m
+  ?[32m✔?[39m ?[32m?[1mThen ?[22mUser verifies error message is displayed?[39m                       ?[90m# com.ilcarro.stepDefinitions.LoginSteps.verifies_error_Login()?[39m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
