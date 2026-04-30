@@ -1,0 +1,22 @@
+# Gradle cache and build directories
+.gradle/
+build/
+
+# IDE compiled output (bypassing Gradle)
+out/
+
+# IntelliJ IDEA settings
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Log files
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+
+
